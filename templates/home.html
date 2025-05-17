@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QuickLease - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000; /* black 60% */
+            color: #f0ffff; /* azure text */
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #000; /* black */
+            padding: 10px 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .navbar .left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .navbar img.logo {
+            width: 60px;
+            margin-bottom: 5px;
+        }
+
+        .navbar h2 {
+            color: crimson; /* crimson */
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .navbar .center input[type="text"] {
+            width: 500px;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+        }
+
+        .navbar .center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar .right a {
+            color: azure;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .right span {
+            margin-right: 10px;
+            color: crimson;
+        }
+
+        /* Slider */
+        .slider {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slides {
+            display: flex;
+            width: 600%;
+            animation: slide 18s infinite;
+        }
+
+        .slides img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        @keyframes slide {
+            0% { margin-left: 0%; }
+            16% { margin-left: 0%; }
+            20% { margin-left: -100%; }
+            36% { margin-left: -100%; }
+            40% { margin-left: -200%; }
+            56% { margin-left: -200%; }
+            60% { margin-left: -300%; }
+            76% { margin-left: -300%; }
+            80% { margin-left: -400%; }
+            96% { margin-left: -400%; }
+            100% { margin-left: 0%; }
+        }
+
+        /* Items */
+        .items-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .item-card {
+            background-color: #111;
+            color: azure;
+            margin: 15px;
+            padding: 15px;
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .item-card:hover {
+            transform: scale(1.05);
+        }
+
+        .item-card img {
+            width: 100%;
+            height: 180px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .item-card h3 {
+            margin: 10px 0 5px;
+        }
+
+        .item-card p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .item-card .view-link {
+            color: crimson;
+            text-decoration: none;
+        }
+
+        .item-card .view-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .category-box {
+            background-color: #111;
+            color: azure;
+            width: 220px;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+        }
+
+        .category-box img {
+            width: 100%;
+            height: 140px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .category-box a {
+            color: crimson;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .category-box a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background-color: #000;
+            /* black */
+            color: azure;
+            text-align: center;
+            padding: 15px;
+            font-size: 16px;
+            margin-top: 40px;
+            border-top: 1px solid crimson;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="left">
+            <img src="{{ url_for('static', filename='QuickLease.jpg') }}" class="logo" alt="Logo">
+            <h2>QuickLease</h2>
+        </div>
+
+        <div class="center">
+            <input type="text" placeholder="Search items to rent...">
+        </div>
+
+        <div class="right">
+            <span>Hello, {{ user_name }}</span>
+            <a href="/add_item">Add Item</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Slider -->
+    <div class="slider">
+        <div class="slides">
+            <img src="{{ url_for('static', filename='img1.jpg') }}" alt="Slide 1">
+            <img src="{{ url_for('static', filename='img2.jpg') }}" alt="Slide 2">
+            <img src="{{ url_for('static', filename='img3.jpg') }}" alt="Slide 3">
+            <img src="{{ url_for('static', filename='img4.jpg') }}" alt="Slide 4">
+            <img src="{{ url_for('static', filename='img5.jpg') }}" alt="Slide 5">
+            <img src="{{ url_for('static', filename='img6.jpg') }}" alt="Slide 6">
+        </div>
+    </div>
+
+    <!-- Items -->
+    <div class="items-section">
+        {% for item in items %}
+            <div class="item-card">
+                <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.description }}</p>
+                <p>₹{{ item.daily_charge }} per day</p>
+                <a href="/item/{{ item.id }}" class="view-link">View Details</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Categories -->
+    <div class="categories">
+        <div class="category-box">
+            <img src="{{ url_for('static', filename='tools.jpg') }}" alt="Tools">
+            <h3>Tools & Equipment</h3>
+            <a href="/category/tools">Explore Tools</a>
+        </div>
+        <div class="category-box">
+            <img src="{{ url_for('static', filename='electronics.jpg') }}" alt="Electronics">
+            <h3>Electronics</h3>
+            <a href="/category/electronics">Explore Electronics</a>
+        </div>
+        <div class="category-box">
+            <img src="{{ url_for('static', filename='vehicles.jpg') }}" alt="Vehicles">
+            <h3>Vehicles</h3>
+            <a href="/category/vehicles">Explore Vehicles</a>
+        </div>
+        <div class="category-box">
+            <img src="{{ url_for('static', filename='partys.jpg') }}" alt="Party Supplies">
+            <h3>Party Supplies</h3>
+            <a href="/category/party_supplies">Explore Party Items</a>
+        </div>
+    </div>
+    <!-- Footer Strip -->
+    <div class="footer">
+        QuickLease, Pune, India - quicklease@gmail.com
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Image Upload Form</title> 
+    <style> 
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            background: linear-gradient(135deg, #1e3a8a, #1f2937); 
+        } 
+ 
+        .container { 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            padding: 30px; 
+            max-width: 400px; 
+            text-align: center; 
+        } 
+ 
+        .container h1 { 
+            color: #333; 
+            margin-bottom: 20px; 
+        } 
+ 
+        .upload-area { 
+            border: 2px dashed #ccc; 
+            border-radius: 10px; 
+            padding: 20px; 
+            cursor: pointer; 
+            transition: border-color 0.3s; 
+        } 
+ 
+        .upload-area:hover { 
+            border-color: #1e3a8a; 
+        } 
+ 
+        .upload-area p { 
+            margin: 0; 
+            color: #555; 
+        } 
+ 
+        #fileInput { 
+            display: none; 
+        } 
+ 
+        .preview { 
+            margin: 15px 0; 
+        } 
+ 
+        .preview img { 
+            max-width: 100%; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        } 
+ 
+        .extra-image { 
+            margin-bottom: 15px; 
+        } 
+ 
+        .extra-image img { 
+            max-width: 100%; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        } 
+ 
+        button { 
+            background-color: #1e3a8a; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: background-color 0.3s; 
+        } 
+ 
+        button:disabled { 
+            background-color: #ccc; 
+            cursor: not-allowed; 
+        } 
+ 
+        button:hover:not(:disabled) { 
+            background-color: #1c2e6f; 
+        } 
+ 
+        .aadhar-id { 
+            margin-top: 15px; 
+            width: 100%; 
+            padding: 10px; 
+            font-size: 16px; 
+            border: 2px solid #ccc; 
+            border-radius: 5px; 
+        } 
+ 
+        .checkbox-container { 
+            margin-top: 15px; 
+            text-align: left; 
+        } 
+ 
+        .checkbox-container input { 
+            margin-right: 10px; 
+        } 
+ 
+        .description-container { 
+            display: none; 
+            margin-top: 20px; 
+            padding: 20px; 
+            background: rgba(0, 0, 0, 0.7); 
+            color: white; 
+            border-radius: 10px; 
+            text-align: left; 
+        } 
+ 
+        .description-container p { 
+            margin-bottom: 10px; 
+        } 
+ 
+        .pay-button { 
+            background-color: #28a745; 
+        } 
+ 
+        .pay-button:disabled { 
+            background-color: #ccc; 
+        } 
+    </style> 
+</head> 
+<body> 
+    <form action="/adhar" method="POST" enctype="multipart/form-data">
+        <div class="container">
+          <h1>Upload Your Image</h1>
+      
+          <div class="extra-image">
+            <img src="{{ url_for('static', filename='aadhar.jpg') }}" alt="Placeholder Image">
+          </div>
+      
+          <div class="upload-area" onclick="document.getElementById('fileInput').click();">
+            <p>Click or Drag and Drop an Image Here</p>
+          </div>
+      
+          <input type="file" id="fileInput" name="aadhar_image" accept="image/*" required onchange="previewImage()">
+
+          <div class="preview" id="preview"></div>
+      
+          <input type="text" name="aadhar_id" id="aadhar-id" class="aadhar-id"
+            placeholder="Enter your Aadhar ID (12 digits)" maxlength="12"
+            required pattern="^\d{12}$" title="Aadhar ID must be 12 digits">
+      
+          <div class="checkbox-container">
+            <input type="checkbox" id="acceptTerms" onchange="toggleSubmit(this)">
+            <label for="acceptTerms">I accept the terms and conditions</label>
+          </div>
+      
+          <button id="submitButton" type="submit" disabled>Submit</button>
+        </div>
+      </form>
+ 
+    <!-- Description Modal --> 
+    <div class="description-container" id="descriptionModal"> 
+        <p><strong>By renting this product, you agree to the following terms and conditions:</strong></p> 
+        <ul> 
+            <li><strong>Product Responsibility</strong>: You are responsible for the product's condition 
+throughout the rental period. Any damage or loss of the product will incur additional charges.</li> 
+            <li><strong>Return Period</strong>: The product must be returned within the agreed rental 
+period. Late returns will incur a fee.</li> 
+            <li><strong>Delivery Instructions</strong>: Please ensure that the delivery address is accurate. If 
+there are any specific delivery instructions, kindly mention them at the time of booking.</li> 
+            <li><strong>Aadhar ID</strong>: Your Aadhar details must be valid and up to date. Any false 
+information may lead to the cancellation of your order.</li> 
+            <li><strong>Product Use</strong>: Please ensure the product is not misused or damaged during 
+the rental period. Misuse of the product will lead to penalties.</li> 
+            <li><strong>Payment</strong>: Payments for the rental must be made upfront. Please review the 
+rental cost before proceeding.</li> 
+        </ul> 
+        <p>Thank you for choosing our service. We wish you a pleasant experience!</p> 
+ 
+        <button id="payButton" class="pay-button" disabled onclick="pay()">Pay</button> 
+    </div> 
+ 
+    <script> 
+        const fileInput = document.getElementById('fileInput'); 
+        const preview = document.getElementById('preview'); 
+        const submitButton = document.getElementById('submitButton'); 
+        const aadharId = document.getElementById('aadhar-id'); 
+        const acceptTerms = document.getElementById('acceptTerms'); 
+        const descriptionModal = document.getElementById('descriptionModal'); 
+        const payButton = document.getElementById('payButton'); 
+ 
+        function toggleSubmit(checkbox) {
+    document.getElementById("submitButton").disabled = !checkbox.checked;
+  }
+
+  function previewImage() {
+    const input = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+    preview.innerHTML = "";
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.style.maxWidth = "200px";
+        preview.appendChild(img);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  document.getElementById('aadharForm').addEventListener('submit', function (e) {
+  e.preventDefault(); // Prevent default form submission
+
+  const formData = new FormData(this);
+
+  fetch('/adhar', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) throw new Error("Upload failed");
+    return response.text();
+  })
+  .then(data => {
+    // Show the description modal after successful upload
+    document.getElementById('descriptionModal').style.display = 'block';
+    document.getElementById('payButton').disabled = false;
+  })
+  .catch(error => {
+    alert("Error: " + error.message);
+  });
+});
+        // Show description modal and enable pay button only if terms are accepted 
+        function showDescription() { 
+            if (aadharId.value.length === 12 && acceptTerms.checked) { 
+                descriptionModal.style.display = 'block'; 
+                submitButton.disabled = true; 
+            } else { 
+                alert("Please ensure Aadhar ID is 12 digits and terms are accepted."); 
+            } 
+        } 
+ 
+        // Enable the Pay button when the terms are accepted in the modal 
+        acceptTerms.addEventListener('change', function () { 
+            if (acceptTerms.checked) { 
+                payButton.disabled = false; 
+            } else { 
+                payButton.disabled = true; 
+            } 
+        }); 
+ 
+        function pay() { 
+            alert("Payment successful! Thank you for your submission."); 
+        } 
+    </script> 
+</body> 
+</html> 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order Page - QuickLease</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(-45deg, #000814, #001f54, #000814);
+      background-size: 400% 400%;
+      animation: bgAnim 15s ease infinite;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 50px; /* Prevent overlap with top bar */
+    }
+
+    @keyframes bgAnim {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .marquee-bar {
+      width: 100%;
+      background: #ff4d4d;
+      color: white;
+      padding: 10px 0;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    .marquee-text {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 15s linear infinite;
+      padding-left: 100%;
+    }
+
+    @keyframes marquee {
+      0%   { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .order-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      width: 90%;
+      max-width: 850px;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    }
+
+    .order-title {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #ffffffcc;
+    }
+
+    .receipt, .summary {
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .receipt p, .summary p {
+      font-size: 1.05em;
+      margin: 12px 0;
+      color: #f0f0f0;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: none;
+      background: #ffffffdd;
+      color: #111;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover:enabled {
+      background-color: #005fa3;
+      transform: scale(1.03);
+    }
+
+    button:disabled {
+      background-color: #888;
+      cursor: not-allowed;
+    }
+
+    .summary p strong {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Moving Notice -->
+  <div class="marquee-bar">
+    <div class="marquee-text">
+      NOTE: Make Sure The Product Is Listed From Your City To Avoid Cancelation And Long Delivery Duration!
+    </div>
+  </div>
+
+  <div class="order-container">
+    <div class="order-title">Order Details</div>
+
+    <div class="receipt" id="receipt">
+      <p><strong>Product Name:</strong> {{ item.name }}</p>
+      <p><strong>Description:</strong> {{ item.description }}</p>
+      <p><strong>Price per Day:</strong> ₹{{ item.daily_charge }}</p>
+    </div>
+
+    <form id="orderForm" action="{{ url_for('place_order', item_id=item.id) }}" method="POST" onsubmit="return confirmSubmit()">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" placeholder="Name" required>
+
+      <label for="address">Address</label>
+      <input type="text" name="address" id="address" placeholder="Address" required>
+
+      <label for="start-date">Start Date</label>
+      <input type="date" name="start_date" id="start-date" required>
+
+      <label for="end-date">End Date</label>
+      <input type="date" name="end_date" id="end-date" required>
+
+      <input type="hidden" name="rent_amount" id="form-rent">
+
+      <button type="button" onclick="calculateRent()">Calculate Rent</button>
+
+      <div class="summary" id="summary">
+        <p><strong>NAME:</strong> <span id="summary-name">-</span></p>
+        <p><strong>ADDRESS:</strong> <span id="summary-address">-</span></p>
+        <p><strong>DURATION OF RENT:</strong> <span id="summary-duration">-</span> days</p>
+        <p><strong>RENT AMOUNT:</strong> ₹<span id="summary-amount">-</span></p>
+      </div>
+
+      <button id="submitBtn" type="submit" disabled>Complete Order</button>
+    </form>
+  </div>
+
+  <script>
+    window._pricePerDay = {{ item.daily_charge }};
+
+    function calculateRent() {
+      const name = document.getElementById('name').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const startDateInput = document.getElementById('start-date').value;
+      const endDateInput = document.getElementById('end-date').value;
+
+      const startDate = new Date(startDateInput);
+      const endDate = new Date(endDateInput);
+
+      if (!name || !address || isNaN(startDate) || isNaN(endDate) || startDate > endDate) {
+        alert('Please fill out all fields correctly.');
+        return;
+      }
+
+      const duration = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+      const rentAmount = duration * window._pricePerDay;
+
+      document.getElementById('summary-name').textContent = name;
+      document.getElementById('summary-address').textContent = address;
+      document.getElementById('summary-duration').textContent = duration;
+      document.getElementById('summary-amount').textContent = rentAmount.toFixed(2);
+      document.getElementById('form-rent').value = rentAmount.toFixed(2);
+
+      document.getElementById('submitBtn').disabled = false;
+    }
+
+    function confirmSubmit() {
+      return confirm('Do you want to complete the order?');
+    }
+  </script>
+</body>
+</html>

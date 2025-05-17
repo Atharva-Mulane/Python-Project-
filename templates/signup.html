@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(
+        270deg,
+        black 0%,
+        rgb(65, 160, 227) 30%,
+        teal 50%,
+        rgb(65, 160, 227) 70%,
+        black 100%
+      );
+      background-size: 600% 600%;
+      animation: gradientShift 20s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      45% { background-position: 45% 50%; }
+      50% { background-position: 50% 50%; }
+      55% { background-position: 55% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .main-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 120px;
+      width: 100%;
+      padding: 40px;
+      max-width: 1200px;
+    }
+
+    .left-section {
+      color: white;
+      text-align: center;
+      max-width: 40%;
+    }
+
+    .left-section img {
+      width: 400px;
+      height: 250px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 3px solid white;
+    }
+
+    .left-section h1 {
+      margin: 20px 0 10px;
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .left-section p {
+      font-size: 16px;
+      max-width: 250px;
+      margin: auto;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      margin-left: -40px; /* Shift container slightly left */
+    }
+
+    .container h2 {
+      margin-bottom: 25px;
+      font-size: 28px;
+      color: #333;
+    }
+
+    .input-field {
+      position: relative;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px 15px 12px 42px;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      outline: none;
+      font-size: 15px;
+      transition: 0.3s ease;
+    }
+
+    .input-field input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .input-field i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+      font-size: 16px;
+      pointer-events: none;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, rgb(50, 179, 234), black);
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .signin {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .signin a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+
+    .signin a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-content">
+    <div class="left-section">
+      <img src="{{ url_for('static', filename='QuickLease.jpg') }}" alt="Platform illustration">
+      <h1>QUICKLEASE</h1>
+      <p>An online peer to peer rental platform</p>
+    </div>
+    <div class="container">
+      <h2>Sign Up</h2>
+      <form action="/signup" method="POST">
+        <div class="input-field">
+          <i class="fa fa-user"></i>
+          <input type="text" name="name" placeholder="Name" required>
+        </div>
+        <div class="input-field">
+          <i class="fa fa-envelope"></i>
+          <input type="email" name="email" placeholder="E-mail" required>
+        </div>
+        <div class="input-field">
+          <i class="fa fa-lock"></i>
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn">CREATE ACCOUNT</button>
+      </form>
+      <p class="signin">Already have an account? <a href="{{ url_for('signin') }}">Sign in</a></p>
+    </div>
+  </div>
+</body>
+</html>

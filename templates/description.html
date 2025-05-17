@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Terms and Conditions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1e3a8a, #1f2937);
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .container h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .container p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .pay-button {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .pay-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Terms & Conditions</h2>
+    <p><strong>By renting this product, you agree to the following terms and conditions:</strong></p>
+    <ul>
+        <li><strong>Product Responsibility</strong>: You are responsible for the product's condition throughout the rental period. Any damage or loss of the product will incur additional charges.</li>
+        <li><strong>Return Period</strong>: The product must be returned within the agreed rental period. Late returns will incur a fee.</li>
+        <li><strong>Delivery Instructions</strong>: Please ensure that the delivery address is accurate. If there are any specific delivery instructions, kindly mention them at the time of booking.</li>
+        <li><strong>Aadhar ID</strong>: Your Aadhar details must be valid and up to date. Any false information may lead to the cancellation of your order.</li>
+        <li><strong>Product Use</strong>: Please ensure the product is not misused or damaged during the rental period. Misuse of the product will lead to penalties.</li>
+        <li><strong>Payment</strong>: Payments for the rental must be made upfront. Please review the rental cost before proceeding.</li>
+    </ul>
+    <p>Thank you for choosing our service. We wish you a pleasant experience!</p>
+
+    <!-- Redirect to order_status on click -->
+    <form action="{{ url_for('order_status') }}">
+        <button type="submit" class="pay-button">Pay</button>
+    </form>
+</div>
+
+</body>
+</html>

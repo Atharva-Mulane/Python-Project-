@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #111;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #000; /* Black */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo-holder {
+    margin-right: 15px;
+}
+
+.navbar h2 {
+    margin: 0;
+    font-size: 24px;
+    color: crimson; /* Crimson accent */
+}
+
+/* Page Title */
+.page-title {
+    text-align: center;
+    color: #000;
+    font-size: 32px;
+    margin: 30px 0 20px;
+}
+
+/* Item Listings */
+.items-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+.item-card {
+    background-color: white;
+    border: 1px solid #ccc;
+    width: 240px;
+    margin: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+    text-align: center;
+}
+
+.item-card:hover {
+    transform: scale(1.03);
+    border-color: crimson;
+}
+
+.item-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.item-card h3 {
+    font-size: 18px;
+    margin: 10px 0 5px;
+    color: #111;
+}
+
+.item-card p {
+    font-size: 14px;
+    margin: 5px 10px 10px;
+    color: #333;
+}
+
+/* Footer Strip */
+.footer {
+    background-color: #000;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 40px;
+}

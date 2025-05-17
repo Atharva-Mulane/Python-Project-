@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ item.name }} Details</title>
+  <style>
+    /* Animated gradient background */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(-45deg, #000000, #004e92, #000000, #004e92);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Card container */
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px 30px;
+      max-width: 600px;
+      width: 90%;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #111;
+      margin-bottom: 20px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin: 20px 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    p {
+      color: #333;
+      font-size: 1.1em;
+      margin: 10px 0;
+    }
+
+    p strong {
+      color: #000;
+    }
+
+    .btn-order {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 14px 30px;
+      font-size: 1.1em;
+      color: white;
+      background-color: crimson;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-order:hover {
+      background-color: #a10028;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>{{ item.name }}</h1>
+    <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}">
+    <p><strong>Product Name:</strong> {{ item.name }}</p>
+    <p><strong>Description:</strong> {{ item.description }}</p>
+    <p><strong>Price per Day:</strong> ₹{{ item.daily_charge }}</p>
+    
+    <a href="{{ url_for('order_page', item_id=item.id) }}" class="btn-order">Order Now</a>
+  </div>
+</body>
+</html>
